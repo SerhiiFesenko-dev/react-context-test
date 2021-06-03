@@ -34,20 +34,14 @@ const initialState = {
 /* constants */
 const LOGIN = "LOGIN";
 const LOGOUT = "LOGOUT";
-const SET_USER_DATA = "SET_USER_DATA";
 
 /* actions */
-export const login = (authToken) => ({
+export const login = ({ user, authToken }) => ({
   type: LOGIN,
-  payload: { authToken },
+  payload: { user, authToken },
 });
 
 export const logout = () => ({ type: LOGOUT });
-
-export const setUserData = (user) => ({
-  type: SET_USER_DATA,
-  payload: { user },
-});
 
 /* reducer */
 const reducer = (state, action) => {
@@ -60,13 +54,6 @@ const reducer = (state, action) => {
         isAuthenticated: true,
       };
     }
-    case SET_USER_DATA: {
-      return {
-        ...state,
-        user: action.payload.user,
-      };
-    }
-
     case LOGOUT: {
       return { ...initialState };
     }
