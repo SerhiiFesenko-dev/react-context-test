@@ -1,8 +1,9 @@
 import { StoreProvider } from "./store";
+import AppRouter from "./AppRouter";
 
 const App = () => (
   <StoreProvider>
-    <div>React context app</div>;
+    <AppRouter />
   </StoreProvider>
 );
 
