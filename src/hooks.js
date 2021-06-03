@@ -5,3 +5,9 @@ export const useIsAuthenticated = () => {
 
   return isAuthenticated;
 };
+
+export const useUser = () => {
+  const user = useSelector((store) => store.user);
+
+  return user;
+};
