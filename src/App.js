@@ -1,3 +1,9 @@
-const App = () => <div>React context app</div>;
+import { StoreProvider } from "./store";
+
+const App = () => (
+  <StoreProvider>
+    <div>React context app</div>;
+  </StoreProvider>
+);
 
 export default App;
