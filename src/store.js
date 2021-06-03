@@ -1,4 +1,11 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useReducer, useEffect } from "react";
+import {
+  setAuthToken,
+  setUser,
+  getAuthToken,
+  getUser,
+  clearLocalStorage,
+} from "./localStoreService";
 
 /* context */
 const StoreContext = createContext();
@@ -62,9 +69,47 @@ const reducer = (state, action) => {
   }
 };
 
+const restoreState = (state) => {
+  const authToken = getAuthToken();
+  const user = getUser();
+
+  if (!authToken) {
+    return initialState;
+  }
+
+  return {
+    ...state,
+    authToken,
+    user,
+    isAuthenticated: true,
+  };
+};
+
 /* provider */
 export const StoreProvider = ({ children }) => {
-  const [store, dispatch] = useReducer(reducer, initialState);
+  const [store, dispatch] = useReducer(reducer, initialState, restoreState);
+
+  useEffect(() => {
+    if (!store.authToken) {
+      return;
+    }
+
+    setAuthToken(store.authToken);
+  }, [store.authToken]);
+
+  useEffect(() => {
+    if (!store.user) {
+      return;
+    }
+
+    setUser(store.user);
+  }, [store.user]);
+
+  useEffect(() => {
+    if (!store.isAuthenticated) {
+      clearLocalStorage();
+    }
+  }, [store.isAuthenticated]);
 
   return (
     <DispatchContext.Provider value={dispatch}>
